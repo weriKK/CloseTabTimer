@@ -7,8 +7,9 @@ function start(){
     endTime.setHours( hours, minutes, 0, 0);
     
     let dateNow = new Date()
-    if( endTime.getTime() - dateNow.getTime() > 0){
-        [hours, minutes, seconds] = milliToHourMinute(endTime.getTime() - dateNow.getTime())
+    let countdown_duration = Math.abs(endTime.getTime() - dateNow.getTime())
+    if(countdown_duration > 0){
+        [hours, minutes, seconds] = milliToHourMinute(countdown_duration)
         updateTimer(hours + "h, " + minutes + "m, " + seconds + "s")
         var query = { active: true, currentWindow: true };
         function callback(tabs) {
@@ -42,7 +43,9 @@ function startCountdown(endTime) {
 function timerTick(endTime) {
     let dateNow = new Date()
     let hours, minutes, seconds
-    [hours, minutes, seconds] = milliToHourMinute(endTime.getTime() - dateNow.getTime())
+    let countdown_duration = Math.abs(endTime.getTime() - dateNow.getTime())
+    
+    [hours, minutes, seconds] = milliToHourMinute(countdown_duration)
     if(seconds < 0) {
         clearInterval(thisInterval)
         updateTimer("---")
